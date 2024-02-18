@@ -1,55 +1,28 @@
-# strawberry-di
-
+# 🍓 Extension: DI Container
 This is a simple di container for [strawberry](https://github.com/elderguardian/strawberry), but you could easily use it in other frameworks.
-
-## Setup
-
-### Installation
-
-1. Download the repository or clone its content
-2. Move the `strawberry-di/` directory inside `src/` into the strawberry's `src/foundations`
-
-Or add it as a submodule.
-
-#### How to add mappings
-
-Pass an array like this to the constructor when creating a new instance of the Kernel class.
-
+## Installation
+```
+mkdir src/foundations && cd src/foundations
+git clone https://github.com/strberry/di.git strawberry-di
+```
+### How to add mappings
+Somewhere in your app, create a static kernel variable like this.
+This could for example be at the top of your `index.php`.
 ```php
-<?php
-
-return [
-    IInterface::class => Implementation::class,
-];
+$kernel = new Kernel([
+    IMyInterface::class => Implementation::class,
+]);
 ```
 
-#### How to use the di container
-
-Create a new instance of the kernel inside the Router and pass it to the controller action when it gets executed.
-
-##### **`src/foundations/router/Router.php:route:35`**
-
-```php
-        [...]
-            $diContainer = new Kernel($mappings);
-
-            echo (new $controllerName)->$actionName($diContainer);
-        [...]
-```
-
-Now you can accept the Kernel as a parameter inside your controller.
-
+### How to use it
 ##### **`src/controllers/YourController.php`**
-
 ```php
     ...
 
-    public function world(IKernel $kernel) {
-   
+    public function world() {
         //Get class from interface string
-        $implementation = $kernel->get('IInterface');
-    
-        return 'Hello World!';
+        $implementation = $kernel->get('IMyInterface');
+        return $this->respond('Hello, world!');
     }
 
     ...
