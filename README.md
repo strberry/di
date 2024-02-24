@@ -5,15 +5,6 @@ This is a simple di container for [strawberry](https://github.com/elderguardian/
 mkdir src/foundations && cd src/foundations
 git clone https://github.com/strberry/di.git strawberry-di
 ```
-### How to add mappings
-Somewhere in your app, create a static kernel variable like this.
-This could for example be at the top of your `index.php`.
-```php
-$kernel = new Kernel([
-    IMyInterface::class => Implementation::class,
-]);
-```
-
 ### How to use it
 ##### **`src/controllers/YourController.php`**
 ```php
@@ -26,4 +17,35 @@ $kernel = new Kernel([
     }
 
     ...
+```
+### How to add mappings
+Somewhere in your app, create a static kernel variable like this.
+This could for example be at the top of your `index.php`. 
+```php
+$kernel = new Kernel([
+    IMyInterface::class => Implementation::class,
+]);
+```
+
+Another alternative is a mix between a repository and singleton class.
+
+```php
+class KernelRepository
+{
+    static ?IKernel $kernel = null;
+
+    /**
+     * @return IKernel
+     */
+    public static function get(): IKernel
+    {
+        if (!self::$kernel) {
+            self::$kernel = new Kernel([
+                IMyInterface::class => Implementation::class,
+            ]);
+        }
+
+        return self::$kernel;
+    }
+}
 ```
