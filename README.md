@@ -21,7 +21,7 @@ $kernel = new Kernel([
 
     public function world() {
         //Get class from interface string
-        $implementation = $kernel->get('IMyInterface');
+        $implementation = $kernel->get(IMyInterface:class);
         return $this->respond('Hello, world!');
     }
 
