@@ -3,7 +3,10 @@ This is a simple di container for [strawberry](https://github.com/elderguardian/
 ## Installation
 ```
 mkdir src/foundations && cd src/foundations
+
 git clone https://github.com/strberry/di.git strawberry-di
+# or
+git submodule add https://github.com/strberry/di.git strawberry-di
 ```
 ### How to use it
 ##### **`src/controllers/YourController.php`**
